@@ -1,5 +1,5 @@
 interval_minutes: 10
-alert_threshold_percent: [5, 10, 20]
+threshold: 5
 
 email:
   sender: "your_email_here@gmail.com"

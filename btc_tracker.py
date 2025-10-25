@@ -9,5 +9,6 @@ def get_btc_data():
         "ath": data["market_data"]["ath"]["usd"]
     }
 
-def is_below_threshold(price, ath, threshold_percent):
-    return price < ath * (1 - threshold_percent / 100)
+def percentage_change_above_threshold(price, ath, threshold_percent):
+    percentage_difference  = ((ath - price) / price ) * 100
+    return percentage_difference >= threshold_percent
