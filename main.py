@@ -6,6 +6,7 @@ from logger_config import setup_logger
 
 logger = setup_logger(__name__)
 
+
 def main():
     with open("config.yaml") as f:
         config = yaml.safe_load(f)
@@ -29,14 +30,20 @@ def main():
                     f"from its all-time high of ${ath}."
                 )
                 logger.info("Threshold breached, sending email...")
-                send_email(email_cfg, subject, body)
+                if email_cfg["is_feature_enabled"] is True:
+                    logger.info("Email feature enabled, email will be sent for alert")
+                    send_email(email_cfg, subject, body)
+                else:
+                    logger.info("Email feature disabled, no email will be sent for alert")
             else:
                 logger.info("No significant drop detected.")
 
         except Exception as e:
             logger.exception(f"Unexpected error occurred: {e}")
 
+        logger.info(f"Sleeping for {interval_in_seconds} seconds")
         time.sleep(interval_in_seconds)
+
 
 if __name__ == "__main__":
     main()
