@@ -24,15 +24,16 @@ def main():
             logger.info(f"BTC: ${price} (ATH: ${ath})")
 
             for threshold in thresholds:
-                if get_percentage_difference_from_ath(price, ath) >= threshold:
+                calculated_percentage_difference = get_percentage_difference_from_ath(price, ath)
+                if calculated_percentage_difference >= threshold:
+                    logger.info(f"Threshold breached at {calculated_percentage_difference}")
 
                     subject = f"Bitcoin {threshold}% Drop Alert!"
                     body = (
                         f"BTC is at ${price}, which is below {threshold}% "
                         f"from its all-time high of ${ath}."
+                        f"Calculated percentage difference is ${calculated_percentage_difference}"
                     )
-
-                    logger.info("Threshold breached at")
 
                     if email_cfg["is_feature_enabled"] is True:
                         logger.info("Email feature enabled, email will be sent for alert")
@@ -40,6 +41,7 @@ def main():
                     else:
                         logger.info("Email feature disabled, no email will be sent for alert")
                     break
+
                 else:
                     logger.info("No significant drop detected.")
 
