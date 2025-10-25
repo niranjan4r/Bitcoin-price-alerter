@@ -1,0 +1,11 @@
+interval_minutes: 10
+alert_threshold_percent: [5, 10, 20]
+
+email:
+  sender: "your_email_here@gmail.com"
+  password: "your_app_password_here"
+  smtp_server: "smtp.example.com"
+  smtp_port: 587
+  recipient_emails:
+    - "recipient1@example.com"
+    - "recipient2@example.com"
