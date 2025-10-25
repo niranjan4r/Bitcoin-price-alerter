@@ -26,8 +26,7 @@ def main():
                     f"from its all-time high of ${ath}."
                 )
                 alert_cache.last_threshold=threshold
-                print(f'Sending email for {threshold}% drop')
-                #send_email(email_cfg, subject, body)
+                send_email(email_cfg, subject, body)
                 break
         time.sleep(interval)
 
