@@ -1,5 +1,5 @@
 interval_minutes: 10
-threshold: 5
+alert_threshold_percent: [5, 10, 20]
 
 email:
   is_feature_enabled: False
