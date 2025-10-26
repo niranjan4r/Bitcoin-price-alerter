@@ -38,7 +38,7 @@ def main():
                         f"from its all-time high of ${ath}."
                         f"Calculated percentage difference is ${calculated_percentage_difference}"
                     )
-
+                    alert_cache.last_threshold = threshold
                     if email_cfg["is_feature_enabled"] is True:
                         logger.info("Email feature enabled, email will be sent for alert")
                         send_email(email_cfg, subject, body)
