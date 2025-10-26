@@ -2,6 +2,7 @@ interval_minutes: 10
 alert_threshold_percent: [5, 10, 20]
 
 email:
+  is_feature_enabled: False
   sender: "your_email_here@gmail.com"
   password: "your_app_password_here"
   smtp_server: "smtp.example.com"
