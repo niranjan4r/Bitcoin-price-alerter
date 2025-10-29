@@ -2,14 +2,14 @@ import time
 import yaml
 from btc_tracker import get_btc_data, get_percentage_difference_from_ath
 from email_notifier import send_email
-from cache_object import alertCache
+from cache_object import AlertCache
 from logger_config import setup_logger
 
 logger = setup_logger(__name__)
 
 
 def main():
-    with open("config.yaml") as f:
+    with open("src/config.yaml") as f:
         config = yaml.safe_load(f)
 
     interval_in_seconds = config["interval_minutes"] * 60
@@ -17,7 +17,7 @@ def main():
         config["alert_threshold_percent"], reverse=True
     )
     email_cfg = config["email"]
-    alert_cache = alertCache()
+    alert_cache = AlertCache()
     logger.info("Starting BTC tracker service...")
 
     while True:
@@ -25,12 +25,12 @@ def main():
             btc_data = get_btc_data()
             price, ath = btc_data["price"], btc_data["ath"]
             logger.info(f"BTC: ${price} (ATH: ${ath})")
-            alert_cache.reset_week() 
+            alert_cache.reset_week()
             for threshold in thresholds:
                 calculated_percentage_difference = get_percentage_difference_from_ath(price, ath)
-                if threshold > (
-                alert_cache.last_threshold if alert_cache.last_threshold else 0
-                ) and calculated_percentage_difference >= threshold:
+                if (
+                        alert_cache.last_threshold if alert_cache.last_threshold else 0
+                ) < threshold <= calculated_percentage_difference:
                     logger.info(f"Threshold breached at {calculated_percentage_difference}")
                     subject = f"Bitcoin {threshold}% Drop Alert!"
                     body = (
@@ -54,7 +54,6 @@ def main():
 
         logger.info(f"Sleeping for {interval_in_seconds} seconds")
         time.sleep(interval_in_seconds)
-
 
 
 if __name__ == "__main__":
