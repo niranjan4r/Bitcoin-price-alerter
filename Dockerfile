@@ -7,9 +7,11 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code and config
+# Copy source code
 COPY src/ ./src/
-COPY config_prod.yaml ./config.yaml
+
+# Uncomment the following line to copy the config for local testing
+# COPY config.yaml ./config.yaml
 
 # Set the default command
 CMD ["python", "src/main.py"]
