@@ -10,9 +10,16 @@ logger = setup_logger(__name__)
 
 
 def main():
-    config_path = os.path.join(os.path.dirname(__file__), '..', 'config.yaml')
-    with open(config_path) as f:
-        config = yaml.safe_load(f)
+    # Load configuration from environment variable if available, else from file
+    config_yaml = os.environ.get("CONFIG_YAML")
+    if config_yaml:
+        config = yaml.safe_load(config_yaml)
+        logger.info("Loaded configuration from environment variable")
+    else:
+        config_path = os.path.join(os.path.dirname(__file__), '..', 'config.yaml')
+        with open(config_path) as f:
+            config = yaml.safe_load(f)
+            logger.info("Loaded configuration from file")
 
     scheduler_interval_minutes = config["scheduler_interval_minutes"]
     thresholds = sorted(
